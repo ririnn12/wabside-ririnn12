@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Biodata</title>
+    <style>
+        /* Reset Default Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Profil Container */
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Profil Card */
+        .profile-card {
+            display: flex;
+            flex-direction: row;
+            background-color: #08efff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .profile-image img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-right: 2px solid #ddd;
+        }
+
+        .profile-info {
+            padding: 20px;
+        }
+
+        .profile-info h1 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        .profile-info .title {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .profile-info p {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Social Links */
+        .social-links {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .social-links .btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #ffffff;
+            background-color: #3498db;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .social-links .btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Profil Container -->
+    <section class="profile-container">
+        <div class="profile-card">
+            <!-- Foto Profil -->
+            <div class="profile-image">
+                <img src="/ririn4.jpeg" alt="Foto Profil">
+            </div>
+            <!-- Informasi Biodata -->
+            <div class="profile-info">
+                <h1>BIODATA</h1>
+                <p class="title">Web Developer & Designer</p>
+                <p><strong>Nama:</strong> Sabrina Rahma Wiseva</p>
+                <p><strong>Alamat:</strong> jakarta selatan</p>
+                <p><strong>Email:</strong> sabrina.123290043@student.itera.ac.id</p>
+                <p><strong>Telepon:</strong> 085591418480</p>
+                <p><strong>Tentang Saya:</strong> hallo nama panggilanku ririn, dengan nim 123290043. aku berkuliah di institut teknologi sumatera. jurusan yang aku ambil adalah sains atmosfer dan keplanetan.</p>
+            </div>
+        </div>
+
+        <!-- Media Sosial -->
+        <div class="social-links">
+            <a href="https://www.instagram.com/rinsb.rhm" class="btn">Instagram</a>
+        </div>
+    </section>
+</body>
+</html>

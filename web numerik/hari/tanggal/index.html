@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari, Tanggal, Bulan, dan Tahun</title>
+    <style>
+        /* Reset Default */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background: linear-gradient(to right, #2c3e50, #34495e);
+            color: #fff;
+            text-align: center;
+        }
+
+        /* Container */
+        .container {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            animation: slideIn 1.5s ease-out;
+            color: #f39c12;
+        }
+
+        /* Date Section */
+        .date {
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #ecf0f1;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            animation: scaleUp 1s ease-in-out infinite alternate;
+        }
+
+        /* Information Card */
+        .info-card {
+            background-color: #34495e;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+            margin-top: 30px;
+            text-align: left;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .info-card h3 {
+            margin-bottom: 10px;
+            color: #f39c12;
+        }
+
+        .info-card p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #ecf0f1;
+        }
+
+        /* Animasi Keyframes */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleUp {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Container untuk Hari, Tanggal, Bulan, dan Tahun -->
+    <div class="container">
+        <h1>Informasi Waktu Saat Ini</h1>
+        <div id="date" class="date">Hari, Tanggal, Bulan, Tahun</div>
+    </div>
+
+    <!-- Informasi Card -->
+    <div class="info-card">
+        <h3>Informasi Singkat</h3>
+        <p>Halaman ini menampilkan informasi real-time mengenai hari, tanggal, bulan, dan tahun saat ini.</p>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function updateDate() {
+            const dateElement = document.getElementById('date');
+            const now = new Date();
+
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+
+            const day = days[now.getDay()];
+            const date = now.getDate();
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+
+            dateElement.textContent = `${day}, ${date} ${month} ${year}`;
+        }
+
+        // Update date immediately and every second
+        setInterval(updateDate, 1000);
+        updateDate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Orbit Simulation</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    canvas {
+      display: block;
+    }
+    #controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    #controls input {
+      width: 50px;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <label>Semi-Major Axis (AU):</label>
+    <input type="number" id="semiMajorAxis" value="5">
+    <br>
+    <label>Eccentricity:</label>
+    <input type="number" id="eccentricity" step="0.01" value="0.3">
+    <br>
+    <button onclick="updateOrbit()">Update Orbit</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.153.0/three.min.js"></script>
+  <script>
+    // Scene, Camera, Renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    const pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.set(0, 0, 0); // Sunlight
+    scene.add(ambientLight, pointLight);
+
+    // Central Sun (Static)
+    const sunGeometry = new THREE.SphereGeometry(1, 32, 32);
+    const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+    scene.add(sun);
+
+    // Orbit Line and Planet
+    let orbit, planet;
+    const planetGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+    const planetMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+
+    // Function to generate orbit curve
+    function createOrbit(semiMajorAxis, eccentricity) {
+      const curve = new THREE.EllipseCurve(
+        -semiMajorAxis * eccentricity, 0, // Center offset (to simulate eccentricity)
+        semiMajorAxis, semiMajorAxis * Math.sqrt(1 - eccentricity ** 2), // Radii
+        0, 2 * Math.PI, // Start and end angle
+        false // Clockwise
+      );
+      const points = curve.getPoints(500);
+      const orbitGeometry = new THREE.BufferGeometry().setFromPoints(
+        points.map(p => new THREE.Vector3(p.x, 0, p.y))
+      );
+      const orbitMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+      return new THREE.Line(orbitGeometry, orbitMaterial);
+    }
+
+    // Initialize Default Orbit and Planet
+    function initOrbit() {
+      orbit = createOrbit(5, 0.3);
+      planet = new THREE.Mesh(planetGeometry, planetMaterial);
+      scene.add(orbit, planet);
+    }
+    initOrbit();
+
+    // Camera Position
+    camera.position.set(0, 15, 15);
+    camera.lookAt(0, 0, 0);
+
+    // Animation Variables
+    let t = 0; // Time variable for orbit motion
+
+    // Animation Loop
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // Move planet along orbit
+      t += 0.005;
+      if (t > 1) t = 0;
+      const curve = orbit.geometry.attributes.position.array;
+      const pointIndex = Math.floor(t * (curve.length / 3));
+      planet.position.set(
+        curve[pointIndex * 3],
+        curve[pointIndex * 3 + 1],
+        curve[pointIndex * 3 + 2]
+      );
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Update Orbit and Planet
+    function updateOrbit() {
+      const semiMajorAxis = parseFloat(document.getElementById('semiMajorAxis').value);
+      const eccentricity = parseFloat(document.getElementById('eccentricity').value);
+
+      if (semiMajorAxis <= 0 || eccentricity < 0 || eccentricity >= 1) {
+        alert('Invalid input. Ensure: semi-major axis > 0 and 0 ≤ eccentricity < 1.');
+        return;
+      }
+
+      // Remove old orbit and planet
+      scene.remove(orbit, planet);
+
+      // Create new orbit and reposition planet
+      orbit = createOrbit(semiMajorAxis, eccentricity);
+      planet = new THREE.Mesh(planetGeometry, planetMaterial);
+      scene.add(orbit, planet);
+
+      // Reset time for animation
+      t = 0;
+    }
+  </script>
+</body>
+</html>
